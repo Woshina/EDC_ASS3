@@ -67,6 +67,7 @@ public class GUI {
         SLabel LAST = new SLabel(lastT);
         Last_panel.add( LAST );
         Stream<String> Allin= All.sUserChanges;
+        // filter the all input streams, using lower bound of lat
         Stream<String> fliterLowLat=Allin.snapshot(L1,(v1,v2)->{
             String[] parts = v1.split(":");
             String part1 = parts[1];
@@ -82,6 +83,7 @@ public class GUI {
 
         });
         //Cell<String> ff=fliterLowLat.hold("");
+        // filter the all input streams, using upper bound of lat
         Stream<String> fliterUplat=fliterLowLat.snapshot(U1,(v1,v2)->{
             String[] parts = v1.split(":");
             String part1 = parts[1];
@@ -96,6 +98,7 @@ public class GUI {
             }
 
         });
+        // filter the all input streams, using lower bound of lon
         Stream<String> fliterLowLon=fliterUplat.snapshot(L2,(v1,v2)->{
             String[] parts = v1.split(":");
             String part1 = parts[2];
@@ -110,7 +113,7 @@ public class GUI {
             }
 
         });
-        //Cell<String> ff=fliterLowLat.hold("");
+        // filter the all input streams, using upper bound of lon
         Stream<String> fliterUplon= fliterLowLon.snapshot(U2,(v1,v2)->{
             String[] parts = v1.split(":");
             String part1 = parts[2];
@@ -133,6 +136,7 @@ public class GUI {
 
         // Attach a handler method to each stream
         for(Stream<GpsEvent> s : streams){
+            //listen to stream and add the last coming event in the cell
             s.listen((GpsEvent ev) -> {
                 lastHold.setText(last.getText());
 
@@ -141,6 +145,7 @@ public class GUI {
                 All.replaceSelection(ev.toString());
 
             });
+            // add filter to filter event in the stream
             Cell<String> Tracker0 = s.map((GpsEvent ev) -> {
                 if (ev.name.equals("Tracker0")){
                     String output = ev.name + " lat: " + ev.latitude +  " lon: " + ev. longitude;
