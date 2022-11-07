@@ -18,10 +18,14 @@ public class GUI {
         JFrame frame = new JFrame("GUI");
         final JPanel gui = new JPanel();
         gui.setBorder( new TitledBorder("GPS Viewer") );
-        STextField input1 = new STextField("lower boned of latitude");
-        STextField input2 = new STextField("upper boned of latitude");
-        STextField input3 = new STextField("lower boned of longitude");
-        STextField input4 = new STextField("upper boned of longitude");
+        STextField input1 = new STextField("0");
+        Cell<String> input11 = new Cell<String>("lower lat");
+        STextField input2 = new STextField("45");
+        Cell<String> input22 = new Cell<String>("upper lat");
+        STextField input3 = new STextField("90");
+        Cell<String> input33 = new Cell<String>("lower lon");
+        STextField input4 = new STextField("180");
+        Cell<String> input44 = new Cell<String>("upper lon");
         Cell<Double> L1 = input1.text.map(t ->Double.valueOf(t));
         Cell<Double> U1 = input2.text.map(t -> Double.valueOf(t));
         Cell<Double> L2 = input3.text.map(t -> Double.valueOf(t));
@@ -43,9 +47,17 @@ public class GUI {
         gui.add(Last_panel, BorderLayout.SOUTH);
         gui.add(search_panel, BorderLayout.NORTH);
         gui.add(Search_result, BorderLayout.SOUTH);
+        SLabel inputf1= new SLabel(input11);
+        search_panel.add(inputf1);
         search_panel.add(input1);
+        SLabel inputf2= new SLabel(input22);
+        search_panel.add(inputf2);
         search_panel.add(input2);
+        SLabel inputf3= new SLabel(input33);
+        search_panel.add(inputf3);
         search_panel.add(input3);
+        SLabel inputf4= new SLabel(input44);
+        search_panel.add(inputf4);
         search_panel.add(input4);
         frame.add(gui);
         STextField lastHold = new STextField("");
@@ -69,9 +81,51 @@ public class GUI {
             }
 
         });
-        Cell<String> ff=fliterLowLat.hold("");
+        //Cell<String> ff=fliterLowLat.hold("");
+        Stream<String> fliterUplat=fliterLowLat.snapshot(U1,(v1,v2)->{
+            String[] parts = v1.split(":");
+            String part1 = parts[1];
+            String[] parts1=part1.split(" ");
+            String pa = parts1[0];
+            Double lat= Double.valueOf(pa);
+            Double lat1= Double.valueOf(v2);
+            if(lat<lat1) {
+                return v1;
+            }else {
+                return null;
+            }
 
+        });
+        Stream<String> fliterLowLon=fliterUplat.snapshot(L2,(v1,v2)->{
+            String[] parts = v1.split(":");
+            String part1 = parts[2];
+            String[] parts1=part1.split(" ");
+            String pa = parts1[0];
+            Double lat= Double.valueOf(pa);
+            Double lat1= Double.valueOf(v2);
+            if(lat>lat1) {
+                return v1;
+            }else {
+                return null;
+            }
 
+        });
+        //Cell<String> ff=fliterLowLat.hold("");
+        Stream<String> fliterUplon= fliterLowLon.snapshot(U2,(v1,v2)->{
+            String[] parts = v1.split(":");
+            String part1 = parts[2];
+            String[] parts1=part1.split(" ");
+            String pa = parts1[0];
+            Double lat= Double.valueOf(pa);
+            Double lat1= Double.valueOf(v2);
+            if(lat<lat1) {
+                return v1;
+            }else {
+                return null;
+            }
+
+        });
+        Cell<String> ff=fliterUplon.hold("");
         SLabel zff = new SLabel(ff);
         Search_result.add(zff);
 
@@ -181,7 +235,7 @@ public class GUI {
 
 
         }
-        frame.setSize(900, 800);
+        frame.setSize(1200, 800);
         frame.setVisible(true);
 
     }
