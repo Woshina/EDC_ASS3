@@ -31,6 +31,96 @@ public class GUI {
             }).hold("");
             SLabel label= new SLabel(Tracker0 );
             frame.add(label);
+                        Cell<String> Tracker1 = s.map((GpsEvent ev) -> {
+                if (ev.name.toString().equals("Tracker1")){
+                    String output = ev.toString();
+                    return output;
+                } else {
+                    return null;
+                }
+            }).hold("");
+            SLabel label1= new SLabel(Tracker1 );
+            frame.add(label1);
+            Cell<String> Tracker2 = s.map((GpsEvent ev) -> {
+                if (ev.name.toString().equals("Tracker2")){
+                    String output = ev.toString();
+                    return output;
+                } else {
+                    return null;
+                }
+            }).hold("");
+            SLabel label2= new SLabel(Tracker2 );
+            frame.add(label2);
+            Cell<String> Tracker3 = s.map((GpsEvent ev) -> {
+                if (ev.name.toString().equals("Tracker3")){
+                    String output = ev.toString();
+                    return output;
+                } else {
+                    return null;
+                }
+            }).hold("");
+            SLabel label3= new SLabel(Tracker3 );
+            frame.add(label3);
+            Cell<String> Tracker4 = s.map((GpsEvent ev) -> {
+                if (ev.name.toString().equals("Tracker4")){
+                    String output = ev.toString();
+                    return output;
+                } else {
+                    return null;
+                }
+            }).hold("");
+            SLabel label4= new SLabel(Tracker4 );
+            frame.add(label4);
+            Cell<String> Tracker5 = s.map((GpsEvent ev) -> {
+                if (ev.name.toString().equals("Tracker5")){
+                    String output = ev.toString();
+                    return output;
+                } else {
+                    return null;
+                }
+            }).hold("");
+            SLabel label5= new SLabel(Tracker5 );
+            frame.add(label5);
+            Cell<String> Tracker6 = s.map((GpsEvent ev) -> {
+                if (ev.name.toString().equals("Tracker6")){
+                    String output = ev.toString();
+                    return output;
+                } else {
+                    return null;
+                }
+            }).hold("");
+            SLabel label6= new SLabel(Tracker6 );
+            frame.add(label6);
+            Cell<String> Tracker7 = s.map((GpsEvent ev) -> {
+                if (ev.name.toString().equals("Tracker7")){
+                    String output = ev.toString();
+                    return output;
+                } else {
+                    return null;
+                }
+            }).hold("");
+            SLabel label7= new SLabel(Tracker7 );
+            frame.add(label7);
+            Cell<String> Tracker8 = s.map((GpsEvent ev) -> {
+                if (ev.name.toString().equals("Tracker8")){
+                    String output = ev.toString();
+                    return output;
+                } else {
+                    return null;
+                }
+            }).hold("");
+            SLabel label8= new SLabel(Tracker8 );
+            frame.add(label8);
+            Cell<String> Tracker9 = s.map((GpsEvent ev) -> {
+                if (ev.name.toString().equals("Tracker9")){
+                    String output = ev.toString();
+                    return output;
+                } else {
+                    return null;
+                }
+            }).hold("");
+            SLabel label9= new SLabel(Tracker9);
+            frame.add(label9);
 
         }
         frame.setSize(600, 800);
