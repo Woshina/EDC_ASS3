@@ -23,16 +23,31 @@ public class GUI {
         final JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(350, 500));
         panel.setBorder( new TitledBorder("Tracker Data") );
+        final JPanel search_panel = new JPanel();
+        final JPanel Last_panel = new JPanel();
+        final JPanel Search_result = new JPanel();
+        Last_panel.setBorder( new TitledBorder("Last Tracker Data") );
+        Last_panel.setPreferredSize(new Dimension(400, 50));
 
         gui.add(panel);
+        gui.add(Last_panel, BorderLayout.SOUTH);
         frame.add(gui);
-
-
-
-
+        STextField lastHold = new STextField("");
+        STextField last = new STextField("");
+        Cell<String> lastT = last.sUserChanges.hold(lastHold.toString());
+        STextField All = new STextField("");
+        SLabel LAST = new SLabel(lastT);
+        Last_panel.add( LAST );
         // Attach a handler method to each stream
         for(Stream<GpsEvent> s : streams){
+            s.listen((GpsEvent ev) -> {
+                lastHold.setText(last.getText());
 
+                last .selectAll();
+                last .replaceSelection(ev.name + "," + ev.latitude +  " , " + ev. longitude+","+ev.altitude);
+                All.replaceSelection(ev.toString());
+
+            });
             Cell<String> Tracker0 = s.map((GpsEvent ev) -> {
                 if (ev.name.equals("Tracker0")){
                     String output = ev.name + " lat: " + ev.latitude +  " lon: " + ev. longitude;
