@@ -18,6 +18,14 @@ public class GUI {
         JFrame frame = new JFrame("GUI");
         final JPanel gui = new JPanel();
         gui.setBorder( new TitledBorder("GPS Viewer") );
+        STextField input1 = new STextField("lower boned of latitude");
+        STextField input2 = new STextField("upper boned of latitude");
+        STextField input3 = new STextField("lower boned of longitude");
+        STextField input4 = new STextField("upper boned of longitude");
+        Cell<Double> L1 = input1.text.map(t ->Double.valueOf(t));
+        Cell<Double> U1 = input2.text.map(t -> Double.valueOf(t));
+        Cell<Double> L2 = input3.text.map(t -> Double.valueOf(t));
+        Cell<Double> U2 = input4.text.map(t -> Double.valueOf(t));
 
         //JToolBar tb = new JToolBar();
         final JPanel panel = new JPanel();
@@ -26,11 +34,19 @@ public class GUI {
         final JPanel search_panel = new JPanel();
         final JPanel Last_panel = new JPanel();
         final JPanel Search_result = new JPanel();
+
+        Search_result.setBorder( new TitledBorder("Search result") );
         Last_panel.setBorder( new TitledBorder("Last Tracker Data") );
         Last_panel.setPreferredSize(new Dimension(400, 50));
 
         gui.add(panel);
         gui.add(Last_panel, BorderLayout.SOUTH);
+        gui.add(search_panel, BorderLayout.NORTH);
+        gui.add(Search_result, BorderLayout.SOUTH);
+        search_panel.add(input1);
+        search_panel.add(input2);
+        search_panel.add(input3);
+        search_panel.add(input4);
         frame.add(gui);
         STextField lastHold = new STextField("");
         STextField last = new STextField("");
@@ -38,6 +54,29 @@ public class GUI {
         STextField All = new STextField("");
         SLabel LAST = new SLabel(lastT);
         Last_panel.add( LAST );
+        Stream<String> Allin= All.sUserChanges;
+        Stream<String> fliterLowLat=Allin.snapshot(L1,(v1,v2)->{
+            String[] parts = v1.split(":");
+            String part1 = parts[1];
+            String[] parts1=part1.split(" ");
+            String pa = parts1[0];
+            Double lat= Double.valueOf(pa);
+            Double lat1= Double.valueOf(v2);
+            if(lat>lat1) {
+                return v1;
+            }else {
+                return null;
+            }
+
+        });
+        Cell<String> ff=fliterLowLat.hold("");
+
+
+        SLabel zff = new SLabel(ff);
+        Search_result.add(zff);
+
+
+
         // Attach a handler method to each stream
         for(Stream<GpsEvent> s : streams){
             s.listen((GpsEvent ev) -> {
